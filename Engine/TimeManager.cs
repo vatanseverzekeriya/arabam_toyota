@@ -72,14 +72,25 @@ public class TimeManager
 
     private void AdvanceSeason()
     {
-        _currentSeason = _currentSeason switch
+        switch (_currentSeason)
         {
-            Season.Spring => Season.Summer,
-            Season.Summer => Season.Fall,
-            Season.Fall => Season.Winter,
-            Season.Winter => { AdvanceYear(); return Season.Spring; },
-            _ => Season.Spring
-        };
+            case Season.Spring:
+                _currentSeason = Season.Summer;
+                break;
+            case Season.Summer:
+                _currentSeason = Season.Fall;
+                break;
+            case Season.Fall:
+                _currentSeason = Season.Winter;
+                break;
+            case Season.Winter:
+                _currentSeason = Season.Spring;
+                AdvanceYear();
+                break;
+            default:
+                _currentSeason = Season.Spring;
+                break;
+        }
 
         OnSeasonChanged?.Invoke(_currentSeason);
     }
